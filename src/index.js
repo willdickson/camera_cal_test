@@ -2,7 +2,8 @@
 
 let _ = require('lodash');
 let paper = require('paper/dist/paper-full.js');
-
+//let saveAs = require('file-saver');
+import {saveAs} from 'file-saver';
 
 window.onload = function() {
 
@@ -33,6 +34,7 @@ window.onload = function() {
   const circleTwo = new paper.Path.Circle(new paper.Point(paper.view.center.x-rotationRadius,paper.view.center.y), circleTwoDiameter);
   circleTwo.fillColor  = 'black';
 
+  // Create Position Array
   let positionArray = [];
   for (let iy=0; iy<yGridPoints.length; iy++) {
    for (let ix=0; ix<xGridPoints.length; ix++) {
@@ -45,6 +47,7 @@ window.onload = function() {
      }
    }
   }
+
 
   let angleArray = [];
   for (let i=0; i<numAngle; i++)
@@ -116,6 +119,9 @@ window.onload = function() {
         circleOne.fillColor = 'black';
         circleTwo.fillColor = 'black';
         break;
+      case 's':
+        savePositionArray();
+        break;
     }
   }
 
@@ -124,6 +130,22 @@ window.onload = function() {
     let width = canvasDim - 2*margin;
     let step = width/numPts;
     return _.range(margin,margin+width,step);
+  };
+
+  function savePositionArray() {
+    // Save position array
+    let outputArray = [];
+    for (let i=0; i<positionArray.length; i++)
+    {
+      let dataLine = ''; 
+      dataLine += positionArray[i].x.toPrecision(4) + ', '; 
+      dataLine += positionArray[i].y.toPrecision(4) + ', '; 
+      dataLine += positionArray[i].angle.toPrecision(4);
+      outputArray.push(dataLine);
+    }
+    outputArray = [outputArray.join('\n') + '\n'];
+    let blob = new Blob(outputArray, {type: "text/plain;charset=utf-8"});
+    saveAs(blob, 'position.txt', true);
   };
   
 }
