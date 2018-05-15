@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production --config webpack.config.js",
-    "devel": "webpack-dev-server --mode development --watch --config webpack.config.js"
+    "devel": "webpack-dev-server --mode development --watch --config webpack.config.js --host 0.0.0.0"
   },
   "author": "Will Dickson",
   "license": "MIT",
